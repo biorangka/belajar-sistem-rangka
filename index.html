@@ -3,468 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Belajar Sistem Rangka - Fase F</title>
+<title>Belajar Rangka 3D</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: white; }
+  .header { text-align: center; padding: 30px 20px; }
+  .header h1 { font-size: 2em; margin: 0; }
+  .header p { color: #aaa; margin-top: 5px; }
   
-  body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6a3093 100%);
-    min-height: 100vh;
-    color: #333;
-    overflow-x: hidden;
-  }
-  
-  /* ===== HEADER JUDUL BESAR ===== */
-  .hero {
-    text-align: center;
-    padding: 50px 20px 30px;
-    position: relative;
-  }
-  
-  .hero h1 {
-    font-size: 3em;
-    color: white;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 40px rgba(255,255,255,0.3);
-    line-height: 1.2;
-    animation: glow 3s ease-in-out infinite alternate;
-  }
-  
-  .hero h1 .highlight {
-    background: linear-gradient(90deg, #ffeaa7, #fdcb6e, #ffeaa7);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-  }
-  
-  @keyframes glow {
-    from { text-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.2); }
-    to   { text-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 60px rgba(255,234,167,0.6); }
-  }
-  
-  .hero .subtitle {
-    color: rgba(255,255,255,0.85);
-    font-size: 1.1em;
-    margin-top: 12px;
-    letter-spacing: 1px;
-  }
-  
-  /* Icon dekoratif di sekitar judul */
-  .hero .deco {
-    font-size: 2.5em;
-    margin: 0 15px;
-    display: inline-block;
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  .hero .deco:nth-child(2) { animation-delay: 0.5s; }
-  .hero .deco:nth-child(4) { animation-delay: 1s; }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  /* ===== KONTEN UTAMA ===== */
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .pilihan-title {
-    text-align: center;
-    color: white;
-    font-size: 1.3em;
-    margin-bottom: 30px;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-  
-  /* ===== 2 TOMBOL BESAR PILIHAN ===== */
-  .menu-pilihan {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-bottom: 40px;
-  }
-  
-  .tombol-pilihan {
-    background: rgba(255,255,255,0.95);
-    border-radius: 25px;
-    padding: 40px 25px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    position: relative;
+  .viewer-container {
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+    background: #16213e;
+    border-radius: 20px;
     overflow: hidden;
-    border: 3px solid transparent;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 2px solid #2a5298;
   }
   
-  .tombol-pilihan::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: left 0.6s;
-  }
-  
-  .tombol-pilihan:hover::before { left: 100%; }
-  
-  .tombol-pilihan:hover {
-    transform: translateY(-12px) scale(1.03);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-  }
-  
-  .tombol-pilihan.aksial:hover { border-color: #e17055; }
-  .tombol-pilihan.apendikular:hover { border-color: #00b894; }
-  
-  .tombol-pilihan .icon-besar {
-    font-size: 5em;
-    display: block;
-    margin-bottom: 15px;
-    transition: transform 0.4s;
-  }
-  
-  .tombol-pilihan:hover .icon-besar {
-    transform: scale(1.15) rotate(-5deg);
-  }
-  
-  .tombol-pilihan h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    font-weight: 800;
-  }
-  
-  .tombol-pilihan.aksial h2 { color: #e17055; }
-  .tombol-pilihan.apendikular h2 { color: #00b894; }
-  
-  .tombol-pilihan p {
-    color: #666;
-    font-size: 0.95em;
-    line-height: 1.5;
-    margin-bottom: 18px;
-  }
-  
-  .tombol-pilihan .btn-masuk {
-    display: inline-block;
-    padding: 10px 28px;
-    border-radius: 25px;
-    color: white;
-    font-weight: 700;
-    letter-spacing: 1px;
-    font-size: 0.95em;
-  }
-  
-  .tombol-pilihan.aksial .btn-masuk {
-    background: linear-gradient(135deg, #e17055, #d63031);
-  }
-  
-  .tombol-pilihan.apendikular .btn-masuk {
-    background: linear-gradient(135deg, #00b894, #0984e3);
-  }
-  
-  /* Ikon kecil dekorasi di tombol */
-  .mini-icons {
-    position: absolute;
-    font-size: 1.5em;
-    opacity: 0.15;
-  }
-  
-  .mini-icons.tl { top: 15px; left: 20px; }
-  .mini-icons.tr { top: 15px; right: 20px; }
-  .mini-icons.bl { bottom: 15px; left: 20px; }
-  .mini-icons.br { bottom: 15px; right: 20px; }
-  
-  /* ===== HALAMAN KONTEN (dipanggil saat klik tombol) ===== */
-  .halaman-konten {
-    display: none;
-    background: white;
-    border-radius: 25px;
-    padding: 35px;
-    margin-bottom: 30px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    animation: fadeIn 0.5s ease;
-  }
-  
-  .halaman-konten.aktif { display: block; }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .halaman-konten h2 {
-    color: #2a5298;
-    font-size: 2em;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .halaman-konten .deskripsi {
-    color: #666;
-    margin-bottom: 25px;
-    line-height: 1.7;
-    border-left: 4px solid #667eea;
-    padding-left: 15px;
-  }
-  
-  /* Grid kartu tulang */
-  .grid-tulang {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    margin-bottom: 25px;
-  }
-  
-  .kartu-tulang {
-    background: linear-gradient(135deg, #f8f9ff, #eef1ff);
-    border-radius: 15px;
-    padding: 22px;
-    border-left: 5px solid #667eea;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-  
-  .kartu-tulang:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(102,126,234,0.25);
-  }
-  
-  .kartu-tulang h3 {
-    color: #2a5298;
-    font-size: 1.15em;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .kartu-tulang p {
-    font-size: 0.9em;
-    color: #555;
-    line-height: 1.6;
-  }
-  
-  /* Tombol kembali */
-  .btn-kembali {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 25px;
-    font-size: 1em;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    letter-spacing: 1px;
-  }
-  
-  .btn-kembali:hover {
-    transform: translateX(-5px);
-    box-shadow: 0 8px 20px rgba(102,126,234,0.4);
-  }
-  
-  /* Info box fakta */
-  .info-fakta {
-    background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin-top: 20px;
-    border-left: 5px solid #e17055;
-    font-size: 0.95em;
-    line-height: 1.6;
-  }
-  
-  .info-fakta strong { color: #d63031; }
-  
-  /* ===== FOOTER ===== */
-  footer {
-    text-align: center;
-    color: rgba(255,255,255,0.8);
-    padding: 30px 20px;
-    font-size: 0.9em;
-  }
-  
-  /* ===== RESPONSIF ===== */
-  @media (max-width: 700px) {
-    .hero h1 { font-size: 1.8em; letter-spacing: 1px; }
-    .hero .deco { font-size: 1.8em; margin: 0 8px; }
-    .menu-pilihan { grid-template-columns: 1fr; gap: 20px; }
-    .tombol-pilihan { padding: 30px 20px; }
-    .tombol-pilihan .icon-besar { font-size: 4em; }
-    .tombol-pilihan h2 { font-size: 1.5em; }
-    .halaman-konten { padding: 22px; }
-    .halaman-konten h2 { font-size: 1.5em; }
+  model-viewer {
+    width: 100%;
+    height: 600px;
+    background: #0f0f1a;
+    outline: none;
   }
 </style>
+<!-- Ini script wajib untuk membaca model 3D -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
 
-<!-- ===== JUDUL BESAR ===== -->
-<div class="hero">
-  <h1>
-    <span class="deco">🦴</span>
-    BELAJAR <span class="highlight">SISTEM RANGKA</span>
-    <span class="deco">💀</span>
-  </h1>
-  <h1 style="font-size:2em; margin-top:10px; letter-spacing:6px;">
-    <span class="deco">🦿</span>
-    FASE F
-    <span class="deco">🦾</span>
-  </h1>
-  <p class="subtitle">✨ Pilih materi yang ingin kamu pelajari ✨</p>
+<div class="header">
+  <h1>💀 Rangka Manusia 3D</h1>
+  <p>Gunakan mouse atau jari untuk memutar dan melihat dari dekat</p>
 </div>
 
-<!-- ===== KONTEN UTAMA ===== -->
-<div class="container">
-
-  <!-- MENU PILIHAN (HALAMAN UTAMA) -->
-  <div id="menu-utama">
-    <p class="pilihan-title">👇 Klik salah satu untuk mulai belajar 👇</p>
-    
-    <div class="menu-pilihan">
-      
-      <!-- TOMBOL RANGKA AKSIAL -->
-      <div class="tombol-pilihan aksial" onclick="bukaMateri('aksial')">
-        <span class="mini-icons tl">🦴</span>
-        <span class="mini-icons tr">💀</span>
-        <span class="mini-icons bl">🫁</span>
-        <span class="mini-icons br">🦴</span>
-        <span class="icon-besar">💀</span>
-        <h2>RANGKA AKSIAL</h2>
-        <p>Rangka sumbu tubuh yang melindungi organ vital — tengkorak, tulang belakang, rusuk, dan dada.</p>
-        <span class="btn-masuk">PELAJARI →</span>
-      </div>
-      
-      <!-- TOMBOL RANGKA APENDIKULAR -->
-      <div class="tombol-pilihan apendikular" onclick="bukaMateri('apendikular')">
-        <span class="mini-icons tl">🦾</span>
-        <span class="mini-icons tr">🦴</span>
-        <span class="mini-icons bl">🦴</span>
-        <span class="mini-icons br">🦿</span>
-        <span class="icon-besar">🦾</span>
-        <h2>RANGKA APENDIKULAR</h2>
-        <p>Rangka anggota gerak yang memungkinkan tubuh bergerak — tangan, kaki, dan gelang panggul/bahu.</p>
-        <span class="btn-masuk">PELAJARI →</span>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- ===== HALAMAN MATERI RANGKA AKSIAL ===== -->
-  <div id="materi-aksial" class="halaman-konten">
-    <h2>💀 Rangka Aksial</h2>
-    <p class="deskripsi">
-      <strong>Rangka aksial</strong> adalah rangka yang membentuk sumbu tubuh. Tersusun dari <strong>80 tulang</strong> 
-      yang berfungsi melindungi organ-organ vital seperti otak, jantung, dan paru-paru.
-    </p>
-    
-    <div class="grid-tulang">
-      <div class="kartu-tulang">
-        <h3>🧠 Tulang Tengkorak (Cranium)</h3>
-        <p>Tersusun dari 8 tulang pelindung otak + 14 tulang wajah. Melindungi otak dari benturan.</p>
-      </div>
-      <div class="kartu-tulang">
-        <h3>🦴 Tulang Belakang (Vertebra)</h3>
-        <p>Terdiri dari 33 ruas tulang belakang yang membentuk sumbu tubuh dan melindungi sumsum tulang belakang.</p>
-      </div>
-      <div class="kartu-tulang">
-        <h3>🫁 Tulang Rusuk (Costae)</h3>
-        <p>12 pasang tulang rusuk yang melindungi jantung dan paru-paru. Ada rusuk sejati, rusuk palsu, dan rusuk melayang.</p>
-      </div>
-      <div class="kartu-tulang">
-        <h3>🛡️ Tulang Dada (Sternum)</h3>
-        <p>Tulang pipih di tengah dada yang menjadi tempat melekatnya tulang rusuk.</p>
-      </div>
-    </div>
-    
-    <div class="info-fakta">
-      <strong>💡 Fakta:</strong> Rangka aksial terdiri dari <strong>80 tulang</strong> — yaitu 29 tulang tengkorak, 26 tulang belakang, 25 tulang rusuk & dada. Jumlahnya lebih sedikit dari rangka apendikular (126 tulang)!
-    </div>
-    
-    <div style="margin-top:25px; text-align:center;">
-      <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
-    </div>
-  </div>
-
-  <!-- ===== HALAMAN MATERI RANGKA APENDIKULAR ===== -->
-  <div id="materi-apendikular" class="halaman-konten">
-    <h2>🦾 Rangka Apendikular</h2>
-    <p class="deskripsi">
-      <strong>Rangka apendikular</strong> adalah rangka anggota gerak yang menempel pada rangka aksial. 
-      Tersusun dari <strong>126 tulang</strong> yang memungkinkan tubuh bergerak dan beraktivitas.
-    </p>
-    
-    <div class="grid-tulang">
-      <div class="kartu-tulang">
-        <h3>🦴 Gelang Bahu (Pektoral)</h3>
-        <p>Terdiri dari tulang selangka (clavicula) dan tulang belikat (scapula). Menghubungkan tangan ke tubuh.</p>
-      </div>
-      <div class="kartu-tulang">
-        <h3>🦾 Tulang Tangan</h3>
-        <p>Terdiri dari tulang lengan atas (humerus), hasta, pengumpil, tulang pergelangan, telapak, dan jari.</p>
-      </div>
-      <div class="kartu-tulang">
-        <h3>🦿 Gelang Panggul (Pelvis)</h3>
-        <p>Terdiri dari tulang usus, tulang duduk, dan tulang kemaluan. Menopang berat tubuh bagian atas.</p>
-      </div>
-      <div class="kartu-tulang">
-        <h3>🦵 Tulang Kaki</h3>
-        <p>Terdiri dari tulang paha (femur), tempurung lutut, tulang kering, betis, pergelangan, telapak, dan jari kaki.</p>
-      </div>
-    </div>
-    
-    <div class="info-fakta">
-      <strong>💡 Fakta:</strong> Tulang paha (femur) adalah <strong>tulang terpanjang dan terkuat</strong> dalam tubuh manusia — bisa menopang beban hingga 30 kali berat tubuh kita!
-    </div>
-    
-    <div style="margin-top:25px; text-align:center;">
-      <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
-    </div>
-  </div>
-
+<div class="viewer-container">
+  <!-- Perhatikan bagian src. Itu adalah link ke file .glb gratis dari Google -->
+  <model-viewer 
+    src="https://modelviewer.dev/shared-assets/models/Skull.glb" 
+    alt="Tengkorak Manusia"
+    camera-controls 
+    auto-rotate
+    shadow-intensity="1"
+    touch-action="pan-y">
+  </model-viewer>
 </div>
-
-<footer>
-  <p>📚 Belajar Sistem Rangka — Fase F</p>
-  <p style="margin-top:5px; opacity:0.7;">Biologi SMA | Rangka Aksial & Apendikular</p>
-</footer>
-
-<script>
-  // ===== FUNGSI NAVIGASI ANTAR HALAMAN =====
-  function bukaMateri(jenis) {
-    // Sembunyikan menu utama
-    document.getElementById('menu-utama').style.display = 'none';
-    
-    // Sembunyikan semua materi
-    document.querySelectorAll('.halaman-konten').forEach(h => h.classList.remove('aktif'));
-    
-    // Tampilkan materi yang dipilih
-    document.getElementById('materi-' + jenis).classList.add('aktif');
-    
-    // Scroll ke atas
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  
-  function kembaliMenu() {
-    // Sembunyikan semua materi
-    document.querySelectorAll('.halaman-konten').forEach(h => h.classList.remove('aktif'));
-    
-    // Tampilkan menu utama
-    document.getElementById('menu-utama').style.display = 'block';
-    
-    // Scroll ke atas
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-</script>
 
 </body>
 </html>
