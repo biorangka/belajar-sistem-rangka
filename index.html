@@ -3,51 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Belajar Rangka 3D</title>
+<title>Belajar Sistem Rangka Fase F</title>
 <style>
-  body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; color: white; }
-  .header { text-align: center; padding: 30px 20px; }
-  .header h1 { font-size: 2em; margin: 0; }
-  .header p { color: #aaa; margin-top: 5px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #1e3c72; color: #333; }
   
-  .viewer-container {
-    max-width: 900px;
-    margin: 0 auto 30px auto;
-    background: #16213e;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    border: 2px solid #2a5298;
+  /* Header */
+  .hero { text-align: center; padding: 40px 20px; color: white; background: linear-gradient(135deg, #1e3c72, #2a5298); }
+  .hero h1 { font-size: 2.5em; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+  .hero h2 { font-size: 1.5em; letter-spacing: 5px; margin-top: 10px; }
+  .hero p { margin-top: 15px; color: #ddd; }
+  
+  .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+  
+  /* Halaman Menu */
+  #menu-utama { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .tombol-pilihan {
+    background: white; border-radius: 20px; padding: 40px 20px; text-align: center;
+    cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .tombol-pilihan:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+  .tombol-pilihan h2 { color: #2a5298; font-size: 1.5em; margin-bottom: 10px; }
+  .tombol-pilihan p { color: #666; font-size: 0.9em; }
+  
+  /* Halaman Konten 3D */
+  .halaman-konten { display: none; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+  .halaman-konten.aktif { display: block; }
+  .halaman-konten h2 { color: #2a5298; margin-bottom: 15px; }
+  
+  /* Kotak 3D */
+  .box-3d {
+    width: 100%; height: 500px; background: #f0f4f8; border-radius: 15px;
+    margin-top: 20px; overflow: hidden; border: 2px solid #ccc;
   }
   
-  model-viewer {
-    width: 100%;
-    height: 600px;
-    background: #0f0f1a;
-    outline: none;
+  .btn-kembali {
+    background: #2a5298; color: white; border: none; padding: 12px 25px;
+    border-radius: 20px; cursor: pointer; font-weight: bold; margin-bottom: 20px;
   }
+  .btn-kembali:hover { background: #1e3c72; }
+
+  @media (max-width: 700px) { #menu-utama { grid-template-columns: 1fr; } }
 </style>
-<!-- Ini script wajib untuk membaca model 3D -->
+<!-- Script Wajib Model 3D -->
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
 
-<div class="header">
-  <h1>💀 Rangka Manusia 3D</h1>
-  <p>Gunakan mouse atau jari untuk memutar dan melihat dari dekat</p>
+<div class="hero">
+  <h1>BELAJAR SISTEM RANGKA</h1>
+  <h2>FASE F</h2>
+  <p>✨ Pilih materi yang ingin kamu pelajari ✨</p>
 </div>
 
-<div class="viewer-container">
-  <!-- Perhatikan bagian src. Itu adalah link ke file .glb gratis dari Google -->
-  <model-viewer 
-    src="https://modelviewer.dev/shared-assets/models/Skull.glb" 
-    alt="Tengkorak Manusia"
-    camera-controls 
-    auto-rotate
-    shadow-intensity="1"
-    touch-action="pan-y">
-  </model-viewer>
+<div class="container">
+
+  <!-- HALAMAN MENU UTAMA -->
+  <div id="menu-utama">
+    <div class="tombol-pilihan" onclick="bukaMateri('aksial')">
+      <h2>💀 Rangka Aksial</h2>
+      <p>Tengkorak, tulang belakang, rusuk, dan dada.</p>
+    </div>
+    <div class="tombol-pilihan" onclick="bukaMateri('apendikular')">
+      <h2>🦾 Rangka Apendikular</h2>
+      <p>Tangan, kaki, gelang bahu, dan gelang panggul.</p>
+    </div>
+  </div>
+
+  <!-- HALAMAN 3D: RANGKA AKSIAL -->
+  <div id="materi-aksial" class="halaman-konten">
+    <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
+    <h2>💀 Rangka Aksial (3D)</h2>
+    <p>Silakan putar model tengkorak di bawah ini dengan mouse atau jarimu.</p>
+    
+    <div class="box-3d">
+      <!-- Ini model 3D Tengkorak -->
+      <model-viewer 
+        src="https://modelviewer.dev/shared-assets/models/Skull.glb" 
+        alt="Tengkorak Manusia"
+        camera-controls 
+        auto-rotate
+        style="width: 100%; height: 100%; background: #e0e5ec;">
+      </model-viewer>
+    </div>
+  </div>
+
+  <!-- HALAMAN 3D: RANGKA APENDIKULAR -->
+  <div id="materi-apendikular" class="halaman-konten">
+    <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
+    <h2>🦾 Rangka Apendikular (3D)</h2>
+    <p>Silakan putar model tulang di bawah ini.</p>
+    
+    <div class="box-3d">
+      <!-- Untuk sementara kita pakai model astronot dulu sebagai contoh, 
+           karena model tulang utuh gratis dari Google belum tentu cocok -->
+      <model-viewer 
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+        alt="Model 3D"
+        camera-controls 
+        auto-rotate
+        style="width: 100%; height: 100%; background: #e0e5ec;">
+      </model-viewer>
+    </div>
+  </div>
+
 </div>
+
+<script>
+  function bukaMateri(jenis) {
+    document.getElementById('menu-utama').style.display = 'none';
+    document.querySelectorAll('.halaman-konten').forEach(h => h.classList.remove('aktif'));
+    document.getElementById('materi-' + jenis).classList.add('aktif');
+    window.scrollTo(0, 0);
+  }
+  
+  function kembaliMenu() {
+    document.querySelectorAll('.halaman-konten').forEach(h => h.classList.remove('aktif'));
+    document.getElementById('menu-utama').style.display = 'grid';
+    window.scrollTo(0, 0);
+  }
+</script>
 
 </body>
 </html>
