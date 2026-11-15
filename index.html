@@ -27,15 +27,20 @@
   
   .container { max-width: 1000px; margin: 0 auto; padding: 0 20px 40px; }
   
-  /* MENU UTAMA */
-  #menu-utama { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 10px; }
+  /* MENU UTAMA (Sekarang 3 Kolom) */
+  #menu-utama { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    margin-top: 10px; 
+  }
   .tombol-pilihan {
     background: white; border-radius: 20px; padding: 40px 20px; text-align: center;
     cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     border: 3px solid transparent;
   }
   .tombol-pilihan:hover { transform: translateY(-10px); border-color: #fdcb6e; }
-  .tombol-pilihan h2 { color: #2a5298; font-size: 1.6em; margin-bottom: 10px; }
+  .tombol-pilihan h2 { color: #2a5298; font-size: 1.5em; margin-bottom: 10px; }
   .tombol-pilihan p { color: #666; font-size: 0.95em; }
   
   /* HALAMAN KONTEN */
@@ -53,45 +58,59 @@
     overflow: hidden; border: 2px solid #dfe6e9; margin-bottom: 20px;
     position: relative;
   }
-  
-  model-viewer {
-    width: 100%; height: 100%; outline: none; background-color: #f4f6fa;
-  }
+  model-viewer { width: 100%; height: 100%; outline: none; background-color: #f4f6fa; }
 
-  /* GAYA UNTUK TITIK INTERAKTIF (HOTSPOT) */
+  /* HOTSPOT 3D */
   .Hotspot {
-    background: #2a5298;
-    border-radius: 50%;
-    border: 3px solid white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    animation: pulse 2s infinite;
-    transition: background 0.3s;
+    background: #2a5298; border-radius: 50%; border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 24px; height: 24px;
+    cursor: pointer; animation: pulse 2s infinite; transition: background 0.3s;
   }
   .Hotspot:hover { background: #fdcb6e; }
-  
-  /* Animasi titik berdenyut */
   @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(42, 82, 152, 0.7); }
     70% { box-shadow: 0 0 0 15px rgba(42, 82, 152, 0); }
     100% { box-shadow: 0 0 0 0 rgba(42, 82, 152, 0); }
   }
 
-  /* GAYA UNTUK KOTAK PENJELASAN */
+  /* PENJELASAN 3D */
   .penjelasan-box {
-    background: #eef2ff;
-    border-left: 5px solid #2a5298;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 15px;
-    display: none; /* Sembunyikan secara default */
+    background: #eef2ff; border-left: 5px solid #2a5298; padding: 20px;
+    border-radius: 10px; margin-top: 15px; display: none;
   }
   .penjelasan-box.aktif { display: block; animation: fadeIn 0.3s ease; }
   .penjelasan-box h3 { color: #2a5298; margin-bottom: 8px; font-size: 1.2em; }
   .penjelasan-box p { color: #444; margin-bottom: 0; font-size: 0.95em; }
   
+  /* GAYA KUIS */
+  .soal-kuis { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px dashed #ccc; }
+  .soal-kuis:last-child { border-bottom: none; }
+  .soal-kuis h3 { font-size: 1.1em; margin-bottom: 12px; color: #333; }
+  
+  .pilihan-jawaban {
+    display: block; width: 100%; text-align: left; background: #f8f9fa;
+    border: 2px solid #ddd; padding: 12px 15px; border-radius: 10px;
+    margin-bottom: 10px; cursor: pointer; font-size: 1em; transition: all 0.2s;
+  }
+  .pilihan-jawaban:hover { background: #eef2ff; border-color: #2a5298; }
+  
+  /* Umpan Balik Kuis */
+  .pilihan-jawaban.benar { background: #d4edda; border-color: #28a745; color: #155724; font-weight: bold; }
+  .pilihan-jawaban.salah { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .pilihan-jawaban:disabled { cursor: not-allowed; opacity: 0.8; }
+  
+  .pesan-kuis { font-weight: bold; margin-top: 10px; display: none; }
+  .pesan-kuis.benar { color: #28a745; display: block; }
+  .pesan-kuis.salah { color: #dc3545; display: block; }
+  
+  /* SKOR KUIS */
+  #skor-container {
+    text-align: center; margin-top: 30px; padding: 20px;
+    background: #eef2ff; border-radius: 15px; display: none;
+  }
+  #skor-container h3 { color: #2a5298; margin-bottom: 10px; }
+  #skor-angka { font-size: 2.5em; font-weight: bold; color: #1e3c72; }
+
   /* TOMBOL KEMBALI */
   .btn-kembali {
     background: #2a5298; color: white; border: none; padding: 12px 25px;
@@ -102,7 +121,7 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   
   /* RESPONSIF */
-  @media (max-width: 700px) {
+  @media (max-width: 800px) {
     .hero h1 { font-size: 2em; } .hero h2 { font-size: 1.4em; }
     #menu-utama { grid-template-columns: 1fr; }
     .box-3d { height: 400px; }
@@ -119,97 +138,126 @@
 
 <div class="container">
 
-  <!-- MENU UTAMA -->
+  <!-- MENU UTAMA (3 TOMBOL) -->
   <div id="menu-utama">
     <div class="tombol-pilihan" onclick="bukaMateri('aksial')">
       <h2>💀 Rangka Aksial</h2>
-      <p>Tengkorak, tulang belakang, rusuk, dan dada.</p>
+      <p>Tengkorak, tulang belakang, dan rusuk.</p>
     </div>
     <div class="tombol-pilihan" onclick="bukaMateri('apendikular')">
       <h2>🦾 Rangka Apendikular</h2>
-      <p>Tangan, kaki, gelang bahu, dan gelang panggul.</p>
+      <p>Tangan, kaki, dan gelang panggul.</p>
+    </div>
+    <div class="tombol-pilihan" onclick="bukaMateri('kuis')">
+      <h2>📝 Kuis Singkat</h2>
+      <p>Uji pemahamanmu dengan soal pilihan ganda.</p>
     </div>
   </div>
 
-  <!-- ===== HALAMAN AKSIAL ===== -->
+  <!-- ===== HALAMAN AKSIAL (3D) ===== -->
   <div id="materi-aksial" class="halaman-konten">
     <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
     <h2>💀 Rangka Aksial</h2>
-    <p><strong>Cara pakai:</strong> Putar model 3D di bawah, lalu <strong>klik titik biru</strong> untuk melihat penjelasan bagian tulang tersebut.</p>
+    <p><strong>Cara pakai:</strong> Putar model 3D di bawah, lalu <strong>klik titik biru</strong> untuk melihat penjelasan.</p>
     
     <div class="box-3d">
-      <!-- MODEL 3D DENGAN HOTSPOT -->
-      <model-viewer 
-        src="rangka-manusia.glb" 
-        alt="Model Rangka Manusia"
-        camera-controls 
-        auto-rotate
-        shadow-intensity="1"
-        touch-action="pan-y"
-        id="model-aksial">
-        
-        <!-- TITIK INTERAKTIF (Hotspot) -->
-        <!-- Catatan: Posisi (data-position & data-normal) ini perkiraan. 
-             Kamu bisa menyesuaikannya jika posisinya agak meleset dari tulang. -->
+      <model-viewer src="rangka-manusia.glb" alt="Model Rangka Manusia" camera-controls auto-rotate shadow-intensity="1" touch-action="pan-y">
         <button class="Hotspot" slot="hotspot-tengkorak" data-position="0m 1.5m 0m" data-normal="0m 0m 1m" onclick="tampilPenjelasan('aksial', 'tengkorak')"></button>
-        
         <button class="Hotspot" slot="hotspot-rusuk" data-position="0m 0.8m 0m" data-normal="0m 0m 1m" onclick="tampilPenjelasan('aksial', 'rusuk')"></button>
-        
       </model-viewer>
     </div>
 
-    <!-- KOTAK PENJELASAN -->
     <div id="penjelasan-aksial-tengkorak" class="penjelasan-box">
       <h3>🧠 Tulang Tengkorak (Cranium)</h3>
       <p>Berfungsi melindungi organ paling vital, yaitu otak, dari benturan. Terdiri dari tulang tengkorak pelindung dan tulang wajah.</p>
     </div>
-
     <div id="penjelasan-aksial-rusuk" class="penjelasan-box">
       <h3>🫁 Tulang Rusuk (Costae)</h3>
       <p>Terdiri dari 12 pasang tulang rusuk yang melengkung membentuk rongga dada. Fungsinya melindungi jantung dan paru-paru.</p>
     </div>
   </div>
 
-  <!-- ===== HALAMAN APENDIKULAR ===== -->
+  <!-- ===== HALAMAN APENDIKULAR (3D) ===== -->
   <div id="materi-apendikular" class="halaman-konten">
     <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
     <h2>🦾 Rangka Apendikular</h2>
-    <p><strong>Cara pakai:</strong> Putar model 3D di bawah, lalu <strong>klik titik biru</strong> untuk melihat penjelasan bagian tulang tersebut.</p>
+    <p><strong>Cara pakai:</strong> Putar model 3D di bawah, lalu <strong>klik titik biru</strong> untuk melihat penjelasan.</p>
     
     <div class="box-3d">
-      <!-- MODEL 3D DENGAN HOTSPOT -->
-      <model-viewer 
-        src="rangka-manusia.glb" 
-        alt="Model Rangka Manusia"
-        camera-controls 
-        auto-rotate
-        shadow-intensity="1"
-        touch-action="pan-y"
-        id="model-apendikular">
-        
-        <!-- TITIK INTERAKTIF (Hotspot) -->
+      <model-viewer src="rangka-manusia.glb" alt="Model Rangka Manusia" camera-controls auto-rotate shadow-intensity="1" touch-action="pan-y">
         <button class="Hotspot" slot="hotspot-tangan" data-position="0.5m 0.8m 0m" data-normal="0m 0m 1m" onclick="tampilPenjelasan('apendikular', 'tangan')"></button>
-        
         <button class="Hotspot" slot="hotspot-kaki" data-position="0m 0m 0m" data-normal="0m 0m 1m" onclick="tampilPenjelasan('apendikular', 'kaki')"></button>
-        
       </model-viewer>
     </div>
 
-    <!-- KOTAK PENJELASAN -->
     <div id="penjelasan-apendikular-tangan" class="penjelasan-box">
       <h3>🦾 Tulang Tangan</h3>
-      <p>Termasuk gelang bahu (klavikula & skapula), tulang lengan atas (humerus), hasta, pengumpil, hingga tulang jari. Berfungsi untuk memegang dan beraktivitas.</p>
+      <p>Termasuk gelang bahu, tulang lengan atas, hasta, pengumpil, hingga tulang jari. Berfungsi untuk memegang dan beraktivitas.</p>
     </div>
-
     <div id="penjelasan-apendikular-kaki" class="penjelasan-box">
       <h3>🦵 Tulang Kaki</h3>
-      <p>Termasuk gelang panggul, tulang paha (femur), tempurung lutut, tulang kering, betis, hingga jari kaki. Berfungsi untuk menopang berat tubuh dan berjalan.</p>
+      <p>Termasuk gelang panggul, tulang paha (femur), tempurung lutut, tulang kering, betis, hingga jari kaki. Berfungsi menopang tubuh.</p>
+    </div>
+  </div>
+
+  <!-- ===== HALAMAN KUIS (BARU) ===== -->
+  <div id="materi-kuis" class="halaman-konten">
+    <button class="btn-kembali" onclick="kembaliMenu()">← Kembali ke Menu</button>
+    <h2>📝 Kuis Singkat Sistem Rangka</h2>
+    <p>Pilih jawaban yang paling tepat. Skor akan muncul setelah semua soal dijawab.</p>
+
+    <div id="wadah-soal">
+      <!-- ========================================== -->
+      <!-- SILAKAN UBAH SOAL DAN JAWABAN DI BAWAH INI  -->
+      <!-- ========================================== -->
+      
+      <!-- SOAL 1 -->
+      <div class="soal-kuis" id="soal-1">
+        <h3>1. Tulang yang berfungsi melindungi otak adalah...</h3>
+        <button class="pilihan-jawaban" onclick="cekKuis(1, false)">A. Tulang rusuk</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(1, true)">B. Tulang tengkorak</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(1, false)">C. Tulang belakang</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(1, false)">D. Tulang paha</button>
+        <div class="pesan-kuis" id="pesan-1"></div>
+      </div>
+
+      <!-- SOAL 2 -->
+      <div class="soal-kuis" id="soal-2">
+        <h3>2. Bagian rangka yang termasuk rangka apendikular adalah...</h3>
+        <button class="pilihan-jawaban" onclick="cekKuis(2, false)">A. Tulang rusuk</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(2, false)">B. Tulang tengkorak</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(2, true)">C. Tulang tangan</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(2, false)">D. Tulang dada</button>
+        <div class="pesan-kuis" id="pesan-2"></div>
+      </div>
+
+      <!-- SOAL 3 -->
+      <div class="soal-kuis" id="soal-3">
+        <h3>3. Jumlah ruas tulang belakang pada manusia adalah...</h3>
+        <button class="pilihan-jawaban" onclick="cekKuis(3, false)">A. 22 ruas</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(3, true)">B. 33 ruas</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(3, false)">C. 44 ruas</button>
+        <button class="pilihan-jawaban" onclick="cekKuis(3, false)">D. 55 ruas</button>
+        <div class="pesan-kuis" id="pesan-3"></div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- AKHIR DARI AREA SOAL                       -->
+      <!-- ========================================== -->
+    </div>
+
+    <!-- KOTAK SKOR -->
+    <div id="skor-container">
+      <h3>Skor Kamu:</h3>
+      <div id="skor-angka">0 / 3</div>
+      <p style="margin-top: 10px; font-size: 0.9em; color: #666;">(Refresh halaman untuk mengulang kuis)</p>
     </div>
   </div>
 
 </div>
 
 <script>
+  // --- NAVIGASI HALAMAN ---
   function bukaMateri(jenis) {
     document.getElementById('menu-utama').style.display = 'none';
     document.querySelectorAll('.halaman-konten').forEach(h => h.classList.remove('aktif'));
@@ -223,17 +271,62 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Fungsi untuk menampilkan penjelasan saat hotspot diklik
+  // --- LOGIKA 3D HOTSPOT ---
   function tampilPenjelasan(kategori, bagian) {
-    // Sembunyikan semua kotak penjelasan di kategori tersebut
     document.querySelectorAll(`#materi-${kategori} .penjelasan-box`).forEach(box => {
       box.classList.remove('aktif');
     });
+    document.getElementById(`penjelasan-${kategori}-${bagian}`).classList.add('aktif');
+  }
+
+  // --- LOGIKA KUIS ---
+  let skor = 0;
+  let soalDijawab = 0;
+  const totalSoal = 3; // Ubah angka ini jika kamu menambah/mengurangi soal
+
+  function cekKuis(nomorSoal, isBenar) {
+    const wadahSoal = document.getElementById('soal-' + nomorSoal);
     
-    // Tampilkan kotak penjelasan yang dipilih
-    const targetBox = document.getElementById(`penjelasan-${kategori}-${bagian}`);
-    if(targetBox) {
-      targetBox.classList.add('aktif');
+    // Jika soal sudah dijawab, jangan lakukan apa-apa
+    if (wadahSoal.dataset.dijawab === 'true') return;
+    wadahSoal.dataset.dijawab = 'true';
+    
+    // Nonaktifkan semua tombol di soal ini
+    const tombol = wadahSoal.querySelectorAll('.pilihan-jawaban');
+    tombol.forEach(btn => btn.disabled = true);
+    
+    const pesan = document.getElementById('pesan-' + nomorSoal);
+    
+    // Cek jawaban
+    if (isBenar) {
+      // Beri warna hijau pada tombol yang diklik
+      event.target.classList.add('benar');
+      pesan.textContent = "✅ Jawaban Benar!";
+      pesan.className = "pesan-kuis benar";
+      skor++;
+    } else {
+      // Beri warna merah pada tombol yang diklik
+      event.target.classList.add('salah');
+      pesan.textContent = "❌ Jawaban Salah.";
+      pesan.className = "pesan-kuis salah";
+      
+      // Tunjukkan jawaban yang benar
+      tombol.forEach(btn => {
+        if (btn.getAttribute('onclick').includes('true')) {
+          btn.classList.add('benar');
+        }
+      });
+    }
+    
+    // Update jumlah soal yang dijawab
+    soalDijawab++;
+    
+    // Jika semua soal sudah dijawab, tampilkan skor
+    if (soalDijawab === totalSoal) {
+      document.getElementById('skor-angka').textContent = skor + " / " + totalSoal;
+      document.getElementById('skor-container').style.display = 'block';
+      // Scroll sedikit ke bawah agar skor terlihat
+      document.getElementById('skor-container').scrollIntoView({ behavior: 'smooth' });
     }
   }
 </script>
